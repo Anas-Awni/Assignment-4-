@@ -1,116 +1,141 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Home();
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: HomePage(),
+    );
   }
 }
 
-class Home extends StatefulWidget {
-  const Home({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
 
   @override
-  State<Home> createState() => _HomeState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _HomeState extends State<Home> {
+class _HomePageState extends State<HomePage> {
   bool flutterCourse = false;
   bool reactCourse = false;
-  Image flutterImage = Image.asset("images/logo1.jpg");
-  Image reactImage = Image.asset("images/logo2.jpg");
-  bool indF = false;
-  bool indR = false;
+  String? flutterPic;
+  String? reactPic;
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(),
-        body: Container(
-            child: Column(
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.indigo,
+        centerTitle: true,
+        title: const Text(
+          'My Courses',
+          style: TextStyle(color: Colors.black),
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
           children: [
-            Text(
-              "Please selecet you Course!",
-              style: TextStyle(
-                  fontSize: 30,
-                  color: Colors.purple,
-                  fontWeight: FontWeight.bold),
+            const SizedBox(
+              height: 10.0,
             ),
-            Divider(height: 35),
+            const Text(
+              'Please select your course?',
+              style: TextStyle(
+                fontSize: 32.0,
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const Divider(
+              height: 20,
+              thickness: 10,
+              color: Colors.black45,
+            ),
             CheckboxListTile(
-                secondary: Icon(
-                  Icons.book,
-                  color: Colors.amber,
+              value: flutterCourse,
+              title: const Text(
+                'Flutter',
+                style: TextStyle(
+                  fontSize: 25.0,
+                  color: Colors.indigo,
+                  fontWeight: FontWeight.bold,
                 ),
-                subtitle: Text("based on dart programming",
-                    style: TextStyle(
-                        fontStyle: FontStyle.italic,
-                        fontSize: 20,
-                        color: Colors.green[700])),
-                title: Text(
-                  "Flutter",
-                  style: TextStyle(
-                      fontSize: 25,
-                      color: Colors.blue,
-                      fontWeight: FontWeight.bold),
+              ),
+              subtitle: const Text(
+                'Based on Dart language',
+                style: TextStyle(
+                  fontSize: 20.0,
+                  fontStyle: FontStyle.italic,
+                  color: Colors.indigoAccent,
                 ),
-                value: flutterCourse,
-                onChanged: ((val) {
-                  setState(() {
-                    flutterCourse = val!;
-                    flutterImage = Image.asset("images/logo1.jpg");
-
-                    if (indF == true) {
-                      flutterImage = Image.asset("images/logo1.jpg");
-                    } else {
-                      flutterImage = Image.asset("");
-                    }
-                  });
-                })),
+              ),
+              secondary: const Icon(
+                Icons.book,
+                color: Colors.indigoAccent,
+                size: 35.0,
+              ),
+              onChanged: (value) {
+                setState(() {
+                  flutterCourse = value!;
+                  if (value) {
+                    flutterPic =
+                        "https://www.cloudsavvyit.com/p/uploads/2021/11/af168a3a.jpeg?width=1198&trim=1,1&bg-color=000&pad=1,1";
+                  } else {
+                    flutterPic = null;
+                  }
+                });
+              },
+            ),
             CheckboxListTile(
-                secondary: Icon(
-                  Icons.book,
-                  color: Colors.amber,
+              value: reactCourse,
+              title: const Text(
+                'React',
+                style: TextStyle(
+                  fontSize: 25.0,
+                  color: Colors.indigo,
+                  fontWeight: FontWeight.bold,
                 ),
-                subtitle: Text(
-                  "based on dart programming",
-                  style: TextStyle(
-                      fontSize: 20,
-                      fontStyle: FontStyle.italic,
-                      color: Colors.green[700]),
+              ),
+              subtitle: const Text(
+                'Based on JS language',
+                style: TextStyle(
+                  fontSize: 20.0,
+                  fontStyle: FontStyle.italic,
+                  color: Colors.indigoAccent,
                 ),
-                title: Text(
-                  "React",
-                  style: TextStyle(
-                      fontSize: 25,
-                      color: Colors.blue,
-                      fontWeight: FontWeight.bold),
-                ),
-                value: reactCourse,
-                onChanged: ((val) {
-                  setState(() {
-                    reactCourse = val!;
-                    reactImage = Image.asset("images/logo2.jpg");
-
-                    if (indR == true) {
-                      flutterImage = Image.asset("images/logo2.jpg");
-                    } else {
-                      flutterImage = Image.asset("");
-                    }
-                  });
-                })),
-            flutterImage = Image.asset("images/logo1.jpg"),
-            reactImage = Image.asset("images/logo2.jpg")
+              ),
+              secondary: const Icon(
+                Icons.book,
+                color: Colors.indigoAccent,
+                size: 35.0,
+              ),
+              onChanged: (value) {
+                setState(() {
+                  reactCourse = value!;
+                  if (value) {
+                    reactPic =
+                        "https://res.cloudinary.com/practicaldev/image/fetch/s--ljmYNm3i--/c_imagga_scale,f_auto,fl_progressive,h_900,q_auto,w_1600/https://www.freecodecamp.org/news/content/images/size/w2000/2020/02/Ekran-Resmi-2019-11-18-18.08.13.png";
+                  } else {
+                    reactPic = null;
+                  }
+                });
+              },
+            ),
+            const Divider(
+              height: 30.0,
+            ),
+            if (flutterPic != null) Image.network(flutterPic!),
+            if (reactPic != null) Image.network(reactPic!),
           ],
-        )),
+        ),
       ),
     );
   }
